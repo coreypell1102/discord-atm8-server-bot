@@ -1,0 +1,12 @@
+[Unit]
+Description=Discord ATM8 Bot
+
+[Service]
+ExecStart=/usr/bin/node bot.js
+WorkingDirectory=/opt/atm8
+Restart=always
+User=root
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
