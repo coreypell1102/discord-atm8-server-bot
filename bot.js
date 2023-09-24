@@ -87,10 +87,25 @@ client.on('messageCreate', async (message) => {
             '!start-atm8 - Start the ATM8 Minecraft server',
             '!stop-atm8 - Stop the ATM8 Minecraft server',
             '!restart-atm8 - Restart the ATM8 Minecraft server',
+            '!status-atm8 - Returns the status of the ATM8 Minecraft server',
             '!help-atm8 - List available commands'
         ];
         const commandList = availableCommands.join('\n');
         message.reply(`Here are the availabe commands:\n${commandList}`);
+    } else if (message.content.startsWith('!status-atm8')) {
+        const instanceId = process.env.INSTANCE_ID;
+        const params = {
+            InstanceIds: [instanceId],
+        };
+
+        const data = await ec2.describeInstances(params).promise();
+        const instance = data.Reservations[0].Instances[0];
+
+        if (instance.State.Name === 'running') {
+            message.reply(`The ATM8 Minecraft server is running.`);
+        } else {
+            message.reply(`The ATM8 Minecraft server is not running.`);
+        }
     }
 });
 
